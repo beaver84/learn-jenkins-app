@@ -22,14 +22,13 @@ pipeline {
         }
         stage('Test'){
             steps {
-                sh '''
-                    if [ -f build/index.html ]; then
-                        echo "build/index.html exists"
-                    echo
-                        echo "build/index.html not found"
-                        exit 1
-                    fi
-                '''
+                script {
+                    if (fileExists('build/index.html')){
+                        echo 'build/index.html found'
+                    } else {
+                        error('build/index.html not found')
+                    }
+                }
             }
         }
     }
