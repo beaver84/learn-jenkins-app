@@ -22,8 +22,14 @@ pipeline {
         }
         stage('Test'){
             steps {
-                echo 'Test stage'
-                sh 'test -f build/index.html'
+                sh '''
+                    if [ -f build/index.html ]; then
+                        echo "build/index.html exists"
+                    echo
+                        echo "build/index.html not found"
+                        exit 1
+                    fi
+                '''
             }
         }
     }
