@@ -44,9 +44,8 @@ pipeline {
         stage('Deploy'){
             steps {
                 sh '''
-                    npm install --save-dev netlify-cli@20.1.1
-                    npx netlify --version
-                    npx netlify deploy --prod --dir=build
+                    npm install netlify-cli@20.1.1
+                    node_modules/.bin/netlify --version
                 '''
             }
         }
