@@ -44,6 +44,7 @@ pipeline {
         stage('Deploy'){
             steps {
                 sh '''
+                    sudo -i
                     npm install -g netlify-cli@20.1.1
                     netlify --version
                 '''
