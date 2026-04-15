@@ -62,7 +62,7 @@ pipeline {
 
         stage('Approval'){
             steps {
-                timeout(time: 15, unit: 'MINUTES'){
+                timeout(time: 1, unit: 'MINUTES'){
                     input (
                         message: '운영 환경에 배포할까요?',
                         ok: '네 배포합니다.'
