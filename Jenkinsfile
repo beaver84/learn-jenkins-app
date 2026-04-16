@@ -3,7 +3,7 @@ pipeline {
     agent none 
 
     environment {
-        NETLIFY_SITE_ID = '자신의 사이트 ID'
+        NETLIFY_SITE_ID = '256a5948-7889-41a2-90b9-f89095884ff9'
         NETLIFY_AUTH_TOKEN = credentials('netlify-token')
     }
 
