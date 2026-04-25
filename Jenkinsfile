@@ -4,6 +4,9 @@ pipeline {
 
     environment {
         AWS_DEFAULT_REGION = 'ap-northeast-2'
+        AWS_ECS_CLUSTER = 'productive-bee-99erhn'
+        AWS_ECS_SERVICE_PROD = 'LearnJenkinsApp-Service-Prod'
+        AWS_ECS_TD_PROD = 'learn-jenkins-app-prod'
     }
 
     stages {
@@ -24,7 +27,8 @@ pipeline {
                         yum install jq -y
                         LATEST_TD_REVISION=$(aws ecs register-task-definition --cli-input-json file://aws/task-definition-prod.json | jq '.taskDefinition.revision')
                         echo $LATEST_TD_REVISION
-                        aws ecs update-service --cluster productive-bee-99erhn --service LearnJenkinsApp-Service-Prod --task-definition learn-jenkins-app-prod:2
+                        aws ecs update-service --cluster $AWS_ECS_CLUSTER --service $AWS_ECS_SERVICE_PROD --task-definition $AWS_ECS_TD_PROD:$LATEST_TD_REVISION
+                        aws ecs wait services-stable --cluster $AWS_ECS_CLUSTER --services $AWS_ECS_SERVICE_PROD
                     '''
                 }
                 
