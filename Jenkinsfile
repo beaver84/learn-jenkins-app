@@ -41,12 +41,14 @@ pipeline {
                 }
             }
             steps {
-                sh '''
-                    yum install -y docker
-                    docker build -t $APP_NAME:$REACT_APP_VERSION .
-                    aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_DOCKER_REGISTRY
-                    docker push $AWS_DOCKER_REGISTRY/$APP_NAME:$REACT_APP_VERSION
-                '''
+                withCredentials([usernamePassword(credentialsId: 'my_aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]) {
+                    sh '''
+                        yum install -y docker
+                        docker build -t $APP_NAME:$REACT_APP_VERSION .
+                        aws ecr get-login-password | docker login --username AWS --password-stdin $AWS_DOCKER_REGISTRY
+                        docker push $AWS_DOCKER_REGISTRY/$APP_NAME:$REACT_APP_VERSION
+                    '''
+                }
             }
         }
 
